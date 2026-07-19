@@ -6,7 +6,8 @@ import Loading from "../components/Loading";
 import BlueprintSectionList from "../components/BlueprintSectionList";
 import FeatureCard from "../components/FeatureCard";
 import Footer from "../components/Footer";
-import { generateBlueprint } from "../utils/blueprintContent";
+import { generateBlueprint as apiGenerate } from "../services/api";
+import { generateBlueprint as localGenerate } from "../utils/blueprintContent";
 
 const FEATURE_ITEMS = [
   { icon: "🤖", title: "AI Project Planning", description: "Transforms raw ideas into comprehensive development blueprints with architecture, database, API, and roadmap." },
@@ -41,15 +42,27 @@ export default function Home() {
     setGenerated(false);
     setBlueprint(null);
 
-    // Simulate AI generation latency with the Loading animation
-    await new Promise((r) => setTimeout(r, 2800));
+    try {
+      await new Promise((r) => setTimeout(r, 2800));
 
-    const newBlueprint = generateBlueprint(idea, requirements);
-    setBlueprint(newBlueprint);
-    setGenerated(true);
-    setGenerating(false);
+      // Try backend API first, fall back to local generation
+      let newBlueprint;
+      try {
+        newBlueprint = await apiGenerate(idea, requirements);
+      } catch {
+        console.warn("Backend unavailable, using local blueprint generator");
+        newBlueprint = localGenerate(idea, requirements);
+      }
 
-    // Scroll to blueprint section after generation
+      setBlueprint(newBlueprint);
+      setGenerated(true);
+    } catch (err) {
+      console.error("Blueprint generation failed:", err);
+      alert("Failed to generate blueprint. Please try again.");
+    } finally {
+      setGenerating(false);
+    }
+
     requestAnimationFrame(() => {
       const el = document.getElementById("blueprint");
       el?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -112,8 +125,8 @@ export default function Home() {
         {/* Features Section — always visible */}
         <section id="features" style={{ padding: "30px 22px 90px" }}>
           <div className="pp-container">
-            <div className="pp-sectionTitle">Features</div>
-            <div className="pp-sectionLead" style={{ marginBottom: 14 }}>
+            <div className="pp-sectionTitle" style={{ textAlign: "center" }}>Features</div>
+            <div className="pp-sectionLead" style={{ marginBottom: 14, textAlign: "center", marginLeft: "auto", marginRight: "auto" }}>
               Everything you need for fast, structured planning—right from a simple idea.
             </div>
             <div className="pp-featuresGrid">

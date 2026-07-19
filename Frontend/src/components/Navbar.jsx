@@ -7,8 +7,6 @@ const LINKS = [
   { label: "About", href: "#about" },
 ];
 
-const GITHUB_HREF = "https://github.com/pranjali-mali-ai/ProjectPilot-AI";
-
 export default function Navbar() {
   const [active, setActive] = useState(null);
 
@@ -77,20 +75,6 @@ export default function Navbar() {
               </a>
             );
           })}
-        </div>
-
-        <div className="pp-actions">
-          <a
-            className="pp-githubBtn"
-            href={GITHUB_HREF}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className="pp-githubIcon" aria-hidden="true">
-              ⌂
-            </span>
-            GitHub
-          </a>
         </div>
       </nav>
     </header>

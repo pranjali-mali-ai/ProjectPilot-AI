@@ -47,25 +47,17 @@ export default function Hero() {
 
 
 
-            <div className="pp-grid2">
-              <div>
-                {/* Generator moved to dedicated section to avoid duplicate input boxes */}
-              </div>
-
-
-              <aside className="pp-sideCard" aria-label="What you get">
-                <div className="pp-sideTitle">What you’ll receive</div>
-                <div className="pp-sideText">
-                  • Feature breakdown
-                  <br />
-                  • User journeys + requirements
-                  <br />
-                  • MVP scope + phased roadmap
-                  <br />
-                  • Success metrics + launch checklist
+            <aside className="pp-sideCard" aria-label="What you get" style={{ maxWidth: 480, margin: "0 auto", padding: "20px 24px" }}>
+              <div className="pp-sideTitle" style={{ fontSize: 18, marginBottom: 14, textAlign: "center" }}>What you&rsquo;ll receive</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div className="pp-sideText" style={{ fontSize: 15, lineHeight: 1.8, textAlign: "left" }}>
+                  ✓ Feature breakdown<br />
+                  ✓ User journeys + requirements<br />
+                  ✓ MVP scope + phased roadmap<br />
+                  ✓ Success metrics + launch checklist
                 </div>
-              </aside>
-            </div>
+              </div>
+            </aside>
 
             <div className="pp-trustRow" aria-label="Trust badges">
               <TrustBadge strong={TRUST_BADGES[0].strong} small={TRUST_BADGES[0].small} icon="🛡️" />
@@ -79,4 +71,3 @@ export default function Hero() {
     </>
   );
 }
-
